@@ -138,6 +138,22 @@ ECommandResult::Type FProvider::GetState(
 	return ECommandResult::Succeeded;
 }
 
+TArray<FSourceControlStateRef> FProvider::GetCachedStateByPredicate(
+	const TFunctionRef<bool(const FSourceControlStateRef&)>& Predicate
+	) const
+{
+	TArray<FSourceControlStateRef> Result;
+	for (const auto& CacheItem : FileStateMap)
+	{
+		FSourceControlStateRef State = CacheItem.Value;
+		if (Predicate(State))
+		{
+			Result.Add(State);
+		}
+	}
+	return Result;
+}
+
 FDelegateHandle FProvider::RegisterSourceControlStateChanged_Handle(
 	const FSourceControlStateChanged::FDelegate& SourceControlStateChanged
 )

@@ -328,7 +328,9 @@ TSharedRef<ITableRow> SLargeAssetTypeTreeWidget::TreeView_OnGenerateRow(
 				.Text(Item->Title)
 				.ToolTipText(
 					!Item->AssetTypeClassName.IsEmpty() ?
-						(FString(TEXT("Class: ")) + Item->AssetTypeClassName) : FString()
+						FText::Format(LOCTEXT("SLargeAssetTypeTreeWidget_ToolTip", "Class: {0}"), 
+							FText::FromString(Item->AssetTypeClassName)
+						) : FText()
 				)
 			]
 		];
